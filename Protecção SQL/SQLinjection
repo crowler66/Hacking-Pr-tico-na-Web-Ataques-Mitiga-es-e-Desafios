@@ -1,0 +1,148 @@
+# Análise e Mitigação de SQL Injection com Prepared Statements
+
+## Descrição
+
+Durante a análise da aplicação foi identificada uma consulta SQL vulnerável à injeção de comandos SQL (SQL Injection). O problema ocorre devido à concatenação direta da entrada do usuário na query.
+
+---
+
+## Código Vulnerável
+
+```php
+<?php
+
+$sql = "SELECT * FROM accounts WHERE username='$name'";
+$result = $conn->prepare($sql);
+
+if($result->num_rows){
+    while($account = $result->fetch_object()){
+        echo "($account->id) - ($account->username)";
+    }
+}
+else{
+    echo "Nenhum cliente encontrado";
+}
+
+?>
+```
+
+### Problema Identificado
+
+A variável `$name` é inserida diretamente na consulta SQL:
+
+```php
+$sql = "SELECT * FROM accounts WHERE username='$name'";
+```
+
+Isso permite que um atacante manipule a query através de caracteres especiais ou operadores SQL.
+
+---
+
+## Exemplo de Ataque
+
+Entrada fornecida pelo usuário:
+
+```sql
+' OR '1'='1
+```
+
+A consulta resultante seria:
+
+```sql
+SELECT * FROM accounts WHERE username='' OR '1'='1'
+```
+
+Como a condição `'1'='1'` é sempre verdadeira, a aplicação pode retornar todos os registros da tabela.
+
+---
+
+## Correção Aplicada
+
+Para eliminar a vulnerabilidade foi implementado o uso de Prepared Statements (Consultas Preparadas).
+
+### Código Corrigido
+
+```php
+<?php
+
+// Query segura utilizando Prepared Statement
+$query = "SELECT username FROM accounts WHERE username=?";
+
+$stmt = $connection->prepare($query);
+
+$stmt->bind_param("s", $name);
+
+$stmt->execute();
+
+$result = $stmt->get_result()->fetch_object();
+
+var_dump($result);
+
+?>
+```
+
+---
+
+## Funcionamento da Correção
+
+O Prepared Statement separa a estrutura SQL dos dados enviados pelo usuário.
+
+A consulta é preparada com um parâmetro:
+
+```php
+$query = "SELECT username FROM accounts WHERE username=?";
+```
+
+Posteriormente o valor é associado ao parâmetro:
+
+```php
+$stmt->bind_param("s", $name);
+```
+
+Onde:
+
+| Parâmetro | Significado |
+|------------|------------|
+| s | String |
+| i | Integer |
+| d | Double |
+| b | Blob |
+
+Dessa forma, qualquer caractere especial enviado pelo usuário será tratado apenas como dado, impedindo a execução de comandos SQL maliciosos.
+
+---
+
+## Benefícios da Implementação
+
+- Mitiga ataques de SQL Injection.
+- Melhora a segurança da aplicação.
+- Facilita a manutenção do código.
+- Segue as recomendações da OWASP.
+- Separa lógica SQL dos dados de entrada.
+
+---
+
+## Evidência da Correção
+
+### Antes
+
+```php
+$sql = "SELECT * FROM accounts WHERE username='$name'";
+```
+
+Entrada do usuário altera a estrutura da consulta.
+
+### Depois
+
+```php
+$query = "SELECT username FROM accounts WHERE username=?";
+$stmt->bind_param("s", $name);
+```
+
+Entrada do usuário é tratada apenas como valor do parâmetro.
+
+---
+
+## Conclusão
+
+A vulnerabilidade identificada era causada pela concatenação direta da variável de entrada na consulta SQL. A implementação de Prepared Statements eliminou o risco de SQL Injection ao separar os comandos SQL dos dados fornecidos pelo usuário, tornando a aplicação significativamente mais segura e alinhada às boas práticas recomendadas pela OWASP.
