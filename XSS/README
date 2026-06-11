@@ -1,0 +1,30 @@
+# 🛡️ Prevenção de XSS, Scanners de Vulnerabilidades e Testes de Segurança
+
+## 📌 Introdução
+A segurança de aplicações web é um processo contínuo que envolve desenvolvimento seguro, validação de entradas, monitoramento e testes regulares. Entre as vulnerabilidades mais comuns está o Cross-Site Scripting (XSS), que permite a execução de scripts maliciosos no navegador das vítimas.
+
+Este documento apresenta boas práticas para prevenção de XSS, uso de scanners de vulnerabilidades, testes Black Box, Web Application Firewalls (WAFs) e uma introdução ao OWASP ZAP.
+
+---
+
+# 🚨 7 Formas de Prevenir XSS
+
+## 1. ❌ Não confiar na entrada do usuário
+Toda informação fornecida pelo usuário deve ser considerada potencialmente maliciosa.
+- Validar todos os dados recebidos  
+- Definir formatos esperados  
+- Rejeitar entradas inválidas  
+
+## 2. ✔ Validação de dados
+- Tamanho máximo  
+- Tipos de dados  
+- Lista de caracteres permitidos  
+
+## 3. 🔐 Output Encoding (Escape)
+Antes de exibir dados no HTML, caracteres especiais devem ser convertidos.
+
+Exemplo:
+```html
+<script>alert('XSS')</script>
+
+&lt;script&gt;alert('XSS')&lt;/script&gt;
