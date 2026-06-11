@@ -1,0 +1,74 @@
+# Considerações Finais
+
+Ao longo deste curso, tive a oportunidade de adquirir conhecimentos importantes sobre segurança de aplicações web, combinando conceitos teóricos e atividades práticas voltadas para a identificação e mitigação de vulnerabilidades.
+
+## SQL Injection
+
+Um dos principais temas estudados foi a vulnerabilidade **SQL Injection**, compreendendo como consultas SQL construídas de forma insegura podem ser exploradas por atacantes. Também foi possível aprender técnicas de mitigação, com destaque para o uso de **Prepared Statements (Consultas Preparadas)** em PHP, que ajudam a separar os dados da instrução SQL e reduzem significativamente os riscos de injeção.
+
+## Ambiente de Treinamento OWASP
+
+Durante o curso, foi utilizada a **OWASP Broken Web Applications VM**, que serviu como ambiente de laboratório para a realização de testes e exercícios práticos. Esse ambiente permitiu visualizar vulnerabilidades reais em um contexto controlado e seguro para aprendizado.
+
+## Cross-Site Scripting (XSS)
+
+Outro tema de grande relevância foi o **Cross-Site Scripting (XSS)**, compreendendo como scripts maliciosos podem ser injetados em aplicações web e executados nos navegadores dos usuários.
+
+Também foram estudadas formas de prevenção, incluindo:
+
+- Não confiar na entrada do usuário;
+- Validar os dados recebidos;
+- Utilizar codificação de saída (Output Encoding);
+- Sanitizar conteúdo HTML;
+- Utilizar sanitizadores;
+- Implementar Content Security Policy (CSP);
+- Realizar verificações e análises periódicas.
+
+## Scanners de Vulnerabilidades
+
+O curso também apresentou o conceito de **scanners de vulnerabilidades**, ferramentas utilizadas para automatizar a identificação de falhas de segurança em aplicações web, servidores e infraestruturas.
+
+Essas ferramentas auxiliam na detecção de problemas como:
+
+- XSS;
+- SQL Injection;
+- Configurações inseguras;
+- Componentes desatualizados;
+- Exposição de informações sensíveis.
+
+## Testes Black Box
+
+Outro conhecimento adquirido foi a metodologia de testes **Black Box**, em que a aplicação é analisada sem acesso ao código-fonte ou informações internas.
+
+Essa abordagem permite simular a visão de um possível atacante externo e identificar vulnerabilidades a partir do comportamento observável da aplicação.
+
+## Web Application Firewall (WAF)
+
+Também foi estudado o funcionamento dos **Web Application Firewalls (WAFs)**, mecanismos que atuam como uma camada adicional de proteção entre os usuários e a aplicação web.
+
+Os WAFs podem ajudar a detectar e bloquear ataques como:
+
+- SQL Injection;
+- XSS;
+- Path Traversal;
+- Command Injection.
+
+## Frameworks e Desenvolvimento Seguro
+
+O curso abordou ainda a importância dos **frameworks** no desenvolvimento de aplicações web. Além de auxiliarem na organização do código, muitos frameworks modernos oferecem recursos de segurança integrados, contribuindo para a proteção contra vulnerabilidades comuns.
+
+## OWASP ZAP (Zed Attack Proxy)
+
+Por fim, foi possível conhecer o **OWASP ZAP (Zed Attack Proxy)**, uma ferramenta amplamente utilizada para testes de segurança em aplicações web.
+
+Entre suas funcionalidades destacam-se:
+
+- Interceptação de requisições HTTP e HTTPS;
+- Mapeamento de aplicações;
+- Análise passiva de vulnerabilidades;
+- Varreduras automatizadas;
+- Geração de relatórios de segurança.
+
+## Conclusão
+
+De maneira geral, os conhecimentos adquiridos ao longo deste curso proporcionaram uma visão mais ampla sobre segurança de aplicações web, permitindo compreender vulnerabilidades comuns, técnicas de mitigação, ferramentas de análise e metodologias de teste. Esses aprendizados reforçam a importância da adoção de boas práticas de desenvolvimento seguro, monitoramento contínuo e avaliações periódicas para a construção de aplicações mais seguras e resilientes.
