@@ -1,0 +1,114 @@
+# Relatório Resumido de Vulnerabilidades - OWASP Mutillidae II
+
+## Ambiente
+
+- Plataforma: OWASP Broken Web Applications (BWA)
+- Aplicação: Mutillidae II
+- URL: http://192.168.1.5
+- Nível de Segurança: 0 (Hosed)
+
+---
+
+## 1. SQL Injection
+
+### Descrição
+Foi identificado que a aplicação não realiza tratamento adequado da entrada do usuário, permitindo a manipulação de consultas SQL.
+
+### Evidência
+
+Entrada:
+
+```sql
+'
+```
+
+Retorno:
+
+```text
+You have an error in your SQL syntax
+```
+
+Consulta exposta:
+
+```sql
+SELECT username FROM accounts WHERE username=''''
+```
+
+### Impacto
+
+- Bypass de autenticação
+- Leitura de dados sensíveis
+- Manipulação de registros
+
+### Mitigação
+
+Utilizar Prepared Statements:
+
+```php
+$query = "SELECT username FROM accounts WHERE username=?";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("s", $name);
+$stmt->execute();
+```
+
+---
+
+## 2. Information Disclosure
+
+### Descrição
+
+A aplicação exibe mensagens detalhadas de erro para o usuário.
+
+### Evidências
+
+Informações expostas:
+
+- Caminho físico dos arquivos
+- Consulta SQL executada
+- Stack Trace
+- Código de erro MySQL
+
+### Impacto
+
+Facilita o reconhecimento da aplicação e a elaboração de ataques mais precisos.
+
+### Mitigação
+
+- Ocultar mensagens de erro em produção.
+- Registrar erros apenas em logs internos.
+
+---
+
+## 3. Comunicação Insegura
+
+### Descrição
+
+A aplicação utiliza HTTP sem criptografia.
+
+### Evidência
+
+```text
+http://192.168.1.5
+```
+
+Navegador exibindo:
+
+```text
+Não seguro
+```
+
+### Impacto
+
+- Interceptação de credenciais
+- Ataques Man-in-the-Middle (MITM)
+
+### Mitigação
+
+- Implementar HTTPS.
+- Utilizar certificados TLS válidos.
+
+---
+
+## Conclusão
+
+Durante os testes foram identificadas vulnerabilidades de SQL Injection, Information Disclosure e Comunicação Insegura. A correção dessas falhas aumenta significativamente a segurança da aplicação e reduz a superfície de ataque.
